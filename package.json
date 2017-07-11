@@ -1,0 +1,80 @@
+{
+  "name": "mini-observable",
+  "version": "1.0.0",
+  "description": "An incredibly lightweight version of TC39 Observable",
+  "license": "MIT",
+  "files": [
+    "src/",
+    "*.js"
+  ],
+  "main": "observable.js",
+  "repository": "github/observable",
+  "scripts": {
+    "build": "BABEL_ENV=build babel src --out-dir .",
+    "flow": "flow",
+    "lint": "eslint src/ test/",
+    "pretest": "npm run flow && npm run lint",
+    "test": "BABEL_ENV=test mocha --compilers js:babel-register"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "ie >= 11",
+              "safari >= 7"
+            ]
+          },
+          "modules": false,
+          "loose": true
+        }
+      ],
+      "flow"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "transform-es2015-modules-commonjs"
+        ]
+      },
+      "build": {
+        "plugins": [
+          "transform-es2015-modules-umd"
+        ]
+      }
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "strict",
+      "plugin:github/recommended"
+    ],
+    "parser": "babel-eslint",
+    "plugins": [
+      "github",
+      "filenames",
+      "import"
+    ]
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-register": "^6.24.1",
+    "chai": "^4.0.2",
+    "es-observable-tests": "^0.3.0",
+    "eslint": "^4.2.0",
+    "eslint-config-strict": "^14.0.0",
+    "eslint-plugin-filenames": "^1.2.0",
+    "eslint-plugin-github": "^0.11.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-rule-documentation": "^1.0.13",
+    "flow-bin": "^0.49.1",
+    "mocha": "^3.4.2"
+  }
+}
