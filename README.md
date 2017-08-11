@@ -116,6 +116,14 @@ flatMap<T, U>(transform: (T) => Observable<U>, source: Observable<T>): Observabl
 
 flatMap takes a source `Observable<T>` and passes each value emitted to `transform(T)`. The output `Observable<U>` of `transform(T)` is then immediately subscribed to and any values are emitted on the output `Observable<U>`. sources from `transform(T)` may overlap. The output `Observable<U>` will only `complete()` when all sources from `transform(T)` also `complete()`. Unsubscribing from the output `Observable` will unsubscribe from all sources, including `Observable<T>` - and `transform(T)` will no longer be called.
 
+### fromCallback [Ⓢ](./src/fromcallback.js)
+
+```js
+fromCallback(func: Function): (...args: *[]) => Observable<*>
+```
+
+fromCallback translates a callback taking function, and returns a function which no longer takes that callback - instead returning an Observable that, when subscribed to, will call the original function with the given arguments and emit `next` events any time the callback is called. In other words if you have a function like `readFile(name: string, callback: (contents: Buffer) => void)` then you can call `fromCallback(readFile)` to get a function of `readFile(name: string) => Observable<Buffer>`.
+
 ### fromEvent [Ⓢ](./src/fromevent.js)
 
 ```js
