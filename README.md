@@ -36,7 +36,7 @@ One of the reasons all of utils are in individual files - rather than on the Obs
 
 This library comes with a set of operators that operate over one or more Observables and always return one Observable. Here are some brief descriptions for each of these:
 
-### of [Ⓢ](./of.js)
+### of [Ⓢ](./of.ts)
 
 ```
 of([1,2,3]): |-1-2-3-|
@@ -47,7 +47,7 @@ of(items: Array<T>) => Observable<T>
 
 `of` creates an Observable (`Observable<T>`) from a list of items in an Array or Array Like (`Array<T>`).
 
-### combine [Ⓢ](./combine.js)
+### combine [Ⓢ](./combine.ts)
 
 ```
 transform t: (a, b) => a + b
@@ -66,7 +66,7 @@ combine<T,U,V>(sourceA: Observable<T>, sourceB: Observable<U>, transform: (T, U)
 
 combine takes two Observables (`Observable<T>` and `Observable<U>`) and when it has received values from both Observables will call `transform(T, U)`. `combine` itself returns an Observable (`Observable<V>`) which emits `next(V)` for every return value of the called `transform(T, U)`. `transform` can be called with stale values, if - for example - sourceB emits after sourceA completes, then `transform` will be called with the last value from `sourceA`. The output `Observable<V>` will only `complete()` when both sources `complete()`. Unsubscribing from `Observable<V>` will unsubscribe from all sources.
 
-### combineObject [Ⓢ](./combineobject.js)
+### combineObject [Ⓢ](./combineobject.ts)
 
 ```
 sources o.a:      |------1----------2----------1----------2------|
@@ -79,7 +79,7 @@ combineObject(sources: {[name: string]: Observable<*>}): Observable<{[name: stri
 
 combineObject takes an Object of Observables and returns an Observable of objects; the keys of which match the key of the sources object, and the values match the values emitted by the Observable values in the sources object. The returned Observable may emit stale values, if - for example - one of the sources completes, then subsequent objects will include the last value of that Observable. The output `Observable` will only `complete()` when all sources `complete()`. Unsubscribing from the output `Observable` will unsubscribe from all sources.
 
-### debounce [Ⓢ](./debounce.js)
+### debounce [Ⓢ](./debounce.ts)
 
 ```
 source:        |--1-2-3-----4-5------6-------7----|
@@ -92,7 +92,7 @@ debounce<T>(source: Observable<T>, duration: number): Observable<T>
 debounce takes a duration of milliseconds, and an `Observable<T>`. Any values the source `Observable<T>` emits will not be emitted on the output `Observable<T>` until the duration has passed. If the source `Observable<T>` emits multiple values during one duration, then older values are discarded - in other words the output `Observable<T>` will only emit at-most-once per duration, with the latest value from the source `Observable<T>`.
 
 
-### filter [Ⓢ](./filter.js)
+### filter [Ⓢ](./filter.ts)
 
 ```
 predicate p: x => x % 2 == 0
@@ -105,7 +105,7 @@ filter<T>(source: Observable<T>, predicate: (T) => boolean): Observable<T>
 
 filter will execute `predicate<T>` for every value emitted from `Observable<T>`. If `predicate<T>` returns `false`, then the output `Observable<T>` _will not_ emit that `T`. If `predicate<T>` returns `true` then the ouput `Observable<T>` _will_ emit that `T`.
 
-### flatMap [Ⓢ](./flatmap.js)
+### flatMap [Ⓢ](./flatmap.ts)
 
 ```
 transform t: x => Observable.of(x+1, x+2))
@@ -122,7 +122,7 @@ flatMap<T, U>(source: Observable<T>, transform: (T) => Observable<U>): Observabl
 
 flatMap takes a source `Observable<T>` and passes each value emitted to `transform(T)`. The output `Observable<U>` of `transform(T)` is then immediately subscribed to and any values are emitted on the output `Observable<U>`. sources from `transform(T)` may overlap. The output `Observable<U>` will only `complete()` when all sources from `transform(T)` also `complete()`. Unsubscribing from the output `Observable` will unsubscribe from all sources, including `Observable<T>` - and `transform(T)` will no longer be called.
 
-### fromCallback [Ⓢ](./fromcallback.js)
+### fromCallback [Ⓢ](./fromcallback.ts)
 
 ```js
 fromCallback<T>(func: Function): (...args: *[]) => Observable<T>
@@ -130,7 +130,7 @@ fromCallback<T>(func: Function): (...args: *[]) => Observable<T>
 
 fromCallback translates a callback taking function, and returns a function which no longer takes that callback - instead returning an Observable that, when subscribed to, will call the original function with the given arguments and emit `next` events any time the callback is called. In other words if you have a function like `readFile(name: string, callback: (contents: Buffer) => void)` then you can call `fromCallback(readFile)` to get a function of `readFile(name: string) => Observable<Buffer>`.
 
-### fromEvent [Ⓢ](./fromevent.js)
+### fromEvent [Ⓢ](./fromevent.ts)
 
 ```js
 fromEvent(element: HTMLElementLike, name: string, options?: EventListenerOptionsOrUseCapture): Observable<Event|CustomEvent>
@@ -138,7 +138,7 @@ fromEvent(element: HTMLElementLike, name: string, options?: EventListenerOptions
 
 fromEvent takes a `name`, `element` and optional `options` object. The output `Observable<Event|CustomEvent>` will call `element.addEventListener(name, next, options)` - thereby emitting any events from the listener, to the Observable. When unsubscribed, `Observable<Event|CustomEvent>` will cleanup the event listener.
 
-### fromPromise [Ⓢ](./frompromise.js)
+### fromPromise [Ⓢ](./frompromise.ts)
 
 ```js
 fromPromise<T>(promise: Promise<T>): Observable<T>
@@ -146,7 +146,7 @@ fromPromise<T>(promise: Promise<T>): Observable<T>
 
 fromPromise takes a `Promise<T>` and will emit `T` when `Promise<T>` resolves. If `Promise<T>` rejects, then `Observable<T>` will `error()`. `complete()` is called after `Promise<T>` resolves and `Observable<T>` emits - as such `Observable<T>` will only ever emit one value.
 
-### map [Ⓢ](./map.js)
+### map [Ⓢ](./map.ts)
 
 ```
 transform t: x => x * 2
@@ -159,7 +159,7 @@ map<T, U>(source: Observable<T>, transform: U|(T) => U): Observable<U>
 
 map takes a source `Observable<T>` and calls `transform(T)` for every emitted value. The returned `Observable<U>` will emit the returned values from `transform<T>`. If `transform` is not callable, and is instead `U` - then the raw value is simply used instead.
 
-### merge [Ⓢ](./merge.js)
+### merge [Ⓢ](./merge.ts)
 
 ```
 source a:    |--1-----2-----3-----4-----|
@@ -172,7 +172,7 @@ merge(...sources: Array<Observable<*>>): Observable<*>
 
 merge takes an arbitrary amount of source `Observable<*>`s and emits any value from any of those sources in the returned `Observable<*>`. The output `Observable<*>` will only `complete()` when all sources `complete()`. Calling `unsubscribe()` on the output `Observable<*>` will call `unsubscribe()` on all source `Observable<*>`s.
 
-### skip [Ⓢ](./skip.js)
+### skip [Ⓢ](./skip.ts)
 
 ```
 source s:   |--1--2--3--4--5--6--7--|
@@ -184,7 +184,7 @@ skip<T>(source: Observable<T>, count: number): Observable<T>
 
 skip takes a count, and a source `Observable<T>`. The returned `Observable<T>` will only emit `T`s after the source `Observable<T>` has emitted `count` times. Any values the source `Observable<T>` emits before `count` is reached will be discarded.
 
-### skipRepeats [Ⓢ](./skiprepeats.js)
+### skipRepeats [Ⓢ](./skiprepeats.ts)
 
 ```
 source s:       |--1--1--2--3--4--4--4--4--5-|
@@ -196,7 +196,7 @@ skipRepeats<T>(source: Observable<T>): Observable<T>
 
 skipRepeats takes source `Observable<T>` and returns an output `Observable<T>` which will ignore repeat emissions from the source. Any values emitted multiple times from the source `Observable<T>` will be discarded after the first emission. In some libraries this is called `distinctUntilChanged`.
 
-### startWith [Ⓢ](./startwith.js)
+### startWith [Ⓢ](./startwith.ts)
 
 ```
 source:       |-----1--2--3--4--5--6--|
@@ -208,7 +208,7 @@ startWith<T,U>(source: Observable<U>, start: T): Observable<T|U>
 
 startWith takes an initial value `T` and a source `Observable<U>` and returns an ouput `Observable<T|U>`, which immediately emits `T`, subsequently emitting any `U`s coming from `Observable<U>`.
 
-### switchLatest [Ⓢ](./switchlatest.js)
+### switchLatest [Ⓢ](./switchlatest.ts)
 
 ```
 transform t: x => Observable.of(x+1, x+1, x+1))
@@ -225,7 +225,7 @@ switchLatest<T, U>(source: Observable<T>, transform: (T) => Observable<U>): Obse
 
 switchLatest takes a source `Observable<T>` and calls `transform(T)` for each emitted value. Like [`flatMap`](#flatMap), switchLatest will immediately subscribe to any `Observable<U>` coming from `transform(T)`, but _in addition_ to this, will `unsubscribe()` from any prior `Observable<U>`s - so that there is only ever one `Observable<U>` subscribed at any one time. In some libraries this is called `switchMap`.
 
-### toggle [Ⓢ](./toggle.js)
+### toggle [Ⓢ](./toggle.ts)
 
 ```
 source s:     |--1--2--3--4--5--6--7--8--|

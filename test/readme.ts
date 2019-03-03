@@ -12,7 +12,7 @@ describe('README', () => {
       .filter(file => file !== 'observable')
     const readme = readFileSync(resolve(__dirname, '../readme.md'), 'utf8')
     for (const util of utils) {
-      expect(readme).to.match(new RegExp(`^### ${util} \\[Ⓢ\\]\\(\\./${util}\\.js\\)$`, 'mi'),
+      expect(readme).to.match(new RegExp(`^### ${util} \\[Ⓢ\\]\\(\\./${util}\\.ts\\)$`, 'mi'),
         `readme has no section for ${util}`)
     }
   })
