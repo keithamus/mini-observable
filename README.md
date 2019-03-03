@@ -6,9 +6,9 @@
 ```js
 import {Observable, fromEvent, map, toggle, merge} from 'mini-observable'
 
-mouseUps = fromEvent('mouseup')
-mouseDowns = fromEvent('mousedown')
-mouseMoves = fromEvent('mousemove')
+mouseUps = fromEvent(document, 'mouseup')
+mouseDowns = fromEvent(document, 'mousedown')
+mouseMoves = fromEvent(document, 'mousemove')
 isMousingDown = merge(mouseDown, map(() => true), map(mouseUp, () => false))
 const unsubscribe = mouseClicks.subscribe(({ preventDefault }) => preventDefault())
 ```
