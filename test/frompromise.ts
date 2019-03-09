@@ -5,7 +5,7 @@ import {describe, it} from 'mocha'
 describe('fromPromise', () => {
 
   it('fromPromise success', done => {
-    const numbers = []
+    const numbers: number[] = []
     fromPromise(Promise.resolve(1)).subscribe({
       error: done,
       next(number) { numbers.push(number) },

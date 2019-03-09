@@ -6,7 +6,7 @@ import {describe, it} from 'mocha'
 describe('startWith', () => {
 
   it('pushes value into start of stream', done => {
-    const numbers = []
+    const numbers: number[] = []
     startWith(of(2, 3, 4), 1)
       .subscribe({
         error: done,

@@ -6,7 +6,7 @@ import {describe, it} from 'mocha'
 describe('map', () => {
 
   it('transforms observable next\'s to new values', done => {
-    const letters = []
+    const letters: string[] = []
     map(of({ letter: 'a' }, { letter: 'b' }, { letter: 'c' }), event => event.letter).subscribe({
       error: done,
       next(letter) { letters.push(letter) },

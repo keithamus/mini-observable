@@ -1,4 +1,6 @@
 import Observable from '../observable'
+import { Subscription } from '../index'
+
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
 
@@ -10,8 +12,8 @@ describe('Observable', () => {
   })
 
   it('can receive events from observable', done => {
-    const letters = []
-    new Observable(({next, complete}) => {
+    const letters: string[] = []
+    new Observable<string>(({next, complete}) => {
       next('a')
       next('b')
       next('c')
@@ -69,8 +71,8 @@ describe('Observable', () => {
   })
 
   it('nothing is fired after complete', done => {
-    const numbers = []
-    new Observable(({next, complete}) => {
+    const numbers: number[] = []
+    new Observable<number>(({next, complete}) => {
       next(1)
       next(2)
       next(3)
@@ -89,8 +91,8 @@ describe('Observable', () => {
   })
 
   it('can unsubscribe to stop receiving events', done => {
-    const numbers = []
-    const {unsubscribe} = new Observable(({next}) => {
+    const numbers: number[] = []
+    const {unsubscribe} = new Observable<number>(({next}) => {
       setTimeout(() => {
         next(1)
         next(2)
@@ -118,8 +120,8 @@ describe('Observable', () => {
   })
 
   it('can observe if the subscription is closed from the return constructor', done => {
-    const numbers = []
-    const subscription = new Observable(({next}) => {
+    const numbers: number[] = []
+    const subscription = new Observable<number>(({next}) => {
       setTimeout(() => {
         next(1)
         next(2)
@@ -150,8 +152,8 @@ describe('Observable', () => {
   })
 
   it('can observe the start of a subscription', done => {
-    const startCalls = []
-    const subscription = new Observable(({next}) => {
+    const startCalls: Subscription[] = []
+    const subscription = new Observable<number>(({next}) => {
       setTimeout(() => {
         next(1)
       })
@@ -167,8 +169,8 @@ describe('Observable', () => {
   })
 
   it('can close the subscription from start', () => {
-    const numbers = []
-    const subscription = new Observable(({next}) => {
+    const numbers: number[] = []
+    const subscription = new Observable<number>(({next}) => {
       next(1)
       next(2)
     }).subscribe({

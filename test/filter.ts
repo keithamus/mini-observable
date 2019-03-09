@@ -6,7 +6,7 @@ import {describe, it} from 'mocha'
 describe('filter', () => {
 
   it('only calls next() for every observable.next() that passes predicate', done => {
-    const numbers = []
+    const numbers: number[] = []
     filter(of(5, 10, 15, 20, 25, 30), i => i % 10 === 0).subscribe({
       error: done,
       next(number) { numbers.push(number) },

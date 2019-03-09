@@ -6,12 +6,12 @@ import {describe, it} from 'mocha'
 describe('flatMap', () => {
 
   it('merges observables coming from transform function', done => {
-    const numbers = []
-    flatMap(new Observable(({next, complete}) => {
+    const numbers: number[] = []
+    flatMap(new Observable<number>(({next, complete}) => {
       next(10)
       next(20)
       complete()
-    }), value => new Observable(({ next, complete }) => {
+    }), value => new Observable<number>(({ next, complete }) => {
       Promise.resolve(value * 2).then(next).then(complete)
     })).subscribe({
       error: done,

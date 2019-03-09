@@ -6,7 +6,7 @@ import {describe, it} from 'mocha'
 describe('merge', () => {
 
   it('merges multiple observables', done => {
-    const numbers = []
+    const numbers: number[] = []
     merge(of(1, 2, 3), of(4, 5, 6), of(7, 8, 9)).subscribe({
       error: done,
       next(number) { numbers.push(number) },
