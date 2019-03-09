@@ -10,14 +10,14 @@ import {Observable as ObservableT} from './index'
 // source a:          |--1-----2-----3--|
 // source b:          |--1--2--3--4--5--|
 // combine(t, a, b):  |--2--3--5--6--8--|
-export default function combine<T,U,V>(sourceA: ObservableT<T>, sourceB: ObservableT<U>, transform: (T, U) => V): ObservableT<V> {
+export default function combine<T,U,V>(sourceA: ObservableT<T>, sourceB: ObservableT<U>, transform: (a: T, b: U) => V): ObservableT<V> {
   return new Observable(({error, next, complete}) => {
     let sourceAComplete = false
     let sourceBComplete = false
-    let sourceAStarted
-    let sourceBStarted
-    let sourceAValue
-    let sourceBValue
+    let sourceAStarted = false
+    let sourceBStarted = false
+    let sourceAValue: T | undefined = undefined
+    let sourceBValue: U | undefined = undefined
     sourceA.subscribe({
       error,
       complete() {
@@ -27,7 +27,7 @@ export default function combine<T,U,V>(sourceA: ObservableT<T>, sourceB: Observa
       next(value) {
         sourceAValue = value
         sourceAStarted = true
-        sourceBStarted && next(transform(sourceAValue, sourceBValue))
+        sourceBStarted && next(transform(sourceAValue, sourceBValue!!))
       }
     })
     sourceB.subscribe({
@@ -39,7 +39,7 @@ export default function combine<T,U,V>(sourceA: ObservableT<T>, sourceB: Observa
       next(value) {
         sourceBValue = value
         sourceBStarted = true
-        sourceAStarted && next(transform(sourceAValue, sourceBValue))
+        sourceAStarted && next(transform(sourceAValue!!, sourceBValue))
       }
     })
   })
