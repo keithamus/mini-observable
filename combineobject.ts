@@ -9,7 +9,7 @@ export default function combineObject<T>(sources: {[name: string]: ObservableT<T
     const total = Object.keys(sources).length
     let started = 0
     let completed = 0
-    const values = {}
+    const values: { [name: string]: T } = {}
     for (const name in sources) {
       sources[name].subscribe({
         error,
