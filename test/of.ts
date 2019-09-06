@@ -5,7 +5,7 @@ import {describe, it} from 'mocha'
 describe('of', () => {
 
   it('creates observable of args', done => {
-    const letters = []
+    const letters: string[] = []
     of('a', 'b', 'c').subscribe({
       error: done,
       next(letter) { letters.push(letter) },

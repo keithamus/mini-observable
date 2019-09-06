@@ -6,8 +6,8 @@ import {describe, it} from 'mocha'
 describe('debounce', () => {
 
   it('ignores events between every <duration>', done => {
-    const numbers = []
-    debounce(new Observable(({next, complete}) => {
+    const numbers: number[] = []
+    debounce(new Observable<number>(({next, complete}) => {
       next(1)
       setTimeout(() => {
         next(2)
@@ -31,7 +31,7 @@ describe('debounce', () => {
   })
 
   it('always sends back last event if no more come in during <duration>', done => {
-    debounce(new Observable(({next}) => {
+    debounce(new Observable<number>(({next}) => {
       next(1)
       next(2)
       next(3)

@@ -8,7 +8,7 @@ describe('fromEvent', () => {
     const optionsStub = {}
     const fakeDomNode = {
       removeEventListener() { done(new Error('removeEventListener was called but shoult not have been')) },
-      addEventListener(name, fn, options) {
+      addEventListener(name: string, fn: Function, options: object) {
         expect(name).to.equal('click', 'fromEvent addedEventListener with wrong name')
         expect(fn).to.be.a('function', 'fromEvent addedEventListener passed incorrect callback type')
         expect(options).to.equal(optionsStub, 'fromEvent addedEventListener with wrong options')
@@ -19,13 +19,13 @@ describe('fromEvent', () => {
   })
 
   it('removes event listener on unsubscribe', done => {
-    let nextFn = null
+    let nextFn: Function | null = null
     const optionsStub = {}
     const fakeDomNode = {
-      addEventListener(name, fn) {
+      addEventListener(name: string, fn: Function) {
         nextFn = fn
       },
-      removeEventListener(name, fn, options) {
+      removeEventListener(name: string, fn: Function, options: object) {
         expect(name).to.equal('click', 'fromEvent removedEventListener with wrong name')
         expect(fn).to.equal(nextFn, 'fromEvent removedEventListener passed wrong function')
         expect(options).to.equal(optionsStub, 'fromEvent removedEventListener with wrong options')

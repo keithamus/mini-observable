@@ -6,15 +6,15 @@ import {describe, it} from 'mocha'
 describe('combine', () => {
 
   it('calls transform() on the results of each latest next()', done => {
-    const combinations = []
-    const observableA = new Observable(({next, complete}) => {
+    const combinations: string[] = []
+    const observableA = new Observable<string>(({next, complete}) => {
       Promise.resolve()
         .then(() => next('a'))
         .then(() => next('b'))
         .then(() => next('c'))
         .then(() => complete())
     })
-    const observableB = new Observable(({next, complete}) => {
+    const observableB = new Observable<number>(({next, complete}) => {
       Promise.resolve()
         .then(() => next(1))
         .then(() => next(2))

@@ -6,13 +6,13 @@ import {describe, it} from 'mocha'
 describe('switchLatest', () => {
 
   it('cancels any previous in-flight inner observables', done => {
-    const numbers = []
+    const numbers: number[] = []
     switchLatest(
-      new Observable(({next}) => {
+      new Observable<number>(({next}) => {
         setTimeout(next, 100, 1)
         setTimeout(next, 200, 2)
       }),
-      value => new Observable(({next, complete}) => {
+      value => new Observable<number>(({next, complete}) => {
         setTimeout(next, 25, value * 1)
         setTimeout(next, 50, value * 2)
         setTimeout(next, 75, value * 3)
@@ -33,13 +33,13 @@ describe('switchLatest', () => {
   })
 
   it('can be used to sequence promises', done => {
-    const numbers = []
+    const numbers: number[] = []
     switchLatest(
-      new Observable(({next}) => {
+      new Observable<number>(({next}) => {
         next(10)
         next(20)
       }),
-      value => new Observable(({next, complete}) => {
+      value => new Observable<number>(({next, complete}) => {
         Promise.resolve(value * 2).then(next).then(complete)
       })
     ).subscribe({

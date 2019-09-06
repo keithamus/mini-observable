@@ -6,7 +6,7 @@ import {describe, it} from 'mocha'
 describe('skip', () => {
 
   it('skips the first N events', done => {
-    const numbers = []
+    const numbers: number[] = []
     skip(of(1, 2, 3, 4, 5, 6, 7), 3).subscribe({
       error: done,
       next(number) { numbers.push(number) },
