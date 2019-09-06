@@ -1,5 +1,5 @@
 import Observable from './observable'
-import {Observable as ObservableT} from './index'
+import {Observable as ObservableT, Subscription} from './index'
 
 // transform t: x => Observable.of(x+1, x+2))
 // source s:      |-1-------2-------3-------7-----|
@@ -8,9 +8,9 @@ import {Observable as ObservableT} from './index'
 // source t(3):                   |-4--5--|
 // source t(7):                           |-8--9--|
 // flatMap(t, s): |-2--3----3--4----4--5----8--9--|
-export default function flatMap<T, U>(source: ObservableT<T>, transform: (T) => ObservableT<U>): ObservableT<U> {
+export default function flatMap<T, U>(source: ObservableT<T>, transform: (item: T) => ObservableT<U>): ObservableT<U> {
   let observables = 0
-  let subscriptions = []
+  let subscriptions: Subscription[] = []
   return new Observable(({error, next, complete}) => {
     subscriptions.push(source.subscribe({
       error,
