@@ -5,7 +5,7 @@ import {Observable as ObservableT} from './index'
 // debounce(200): |---------3-------5-----6-------7--|
 export default function debounce<T>(source: ObservableT<T>, duration: number): ObservableT<T> {
   return new Observable(({error, next, complete}) => {
-    let timer
+    let timer: number
     source.subscribe({
       error,
       complete: () => setTimeout(complete, duration),
